@@ -1,13 +1,13 @@
 # UptimeRobot to Kuma migration
 
 We migrated from UptimeRobot to UptimeKuma, but there was no fast way to achieve this, so
-we wrote our own small migration helper.
+we wrote our small migration helper.
 
 ## Getting started
 
 Copy the `.env.sample` as `.env` and enter your UptimeRobot API key.
 
-For testing, you can simply start UptimeKuma via Docker:
+For testing, you can start UptimeKuma via Docker:
 
 ```shell
 docker run --rm -p 3001:3001 --name uptime-kuma louislam/uptime-kuma:1
@@ -26,28 +26,28 @@ yarn copy-monitors
 yarn disable-uptime-robot
 
 # delete all your monitors from UptimeRobot
-# DANGER!!! This is can not be undone
+# DANGER!!! This action can not be undone
 yarn delete-uptime-robot
 ```
 
 ## Production Migration
 
-**Important Node:** This migration helper was writen specially for our use-case. So not all UptimeRobot
-scenarios and features are implemented. So no garantie this will work 100% for you.
+**Important Note:** Our migration helper was written primarily for our use case. So, not all UptimeRobot
+scenarios and features are implemented. So, there is no guarantee that this will work 100% for you.
 
-**Pro Tipp:** Before migrating, create a default notification that will get used as default.
+**Pro Tipp:** Before migrating, create a default notification that will be used as a default.
 
 ## Architecture
 
 ### Fetching from UptimeRobot
 
-This part was quite easy, because UptimeRobot got a good REST-API to fetch all monitors from
+This part was relatively easy because UptimeRobot got an excellent REST API to fetch all monitors from
 
 ### Creating the monitors in Kuma
 
 This was the hard part. Currently, Kuma does not provide any form of API. In the first version of this migration
-helper, I tried to hook into the websocket connection of the UI and create monitors that way. This was really instabile
+helper, I tried to hook into the WebSocket connection of the UI and create monitors that way. This was unstable
 and resulted in many non-deterministic errors.
 
-For this reason I switched to Playwright. This allows us the remote-control a browser, which will create
+For this reason, I switched to Playwright. This allows us to remote-control a browser, which will create
 the monitors via the Kuma-UI.
